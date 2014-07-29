@@ -100,20 +100,57 @@ public class BinaryTree<E extends Comparable<E>> {
     }
 
     /**
-     * inOrder traversal from the root
+     * In-Order von der Wurzel aus
      */
     public void inOrder() {
         inOrder(root);
     }
 
     /**
-     * inOrder traversal from a subtree
+     * In-Order von der Wurzel aus
+     * Der Code wurde nur für Debugging Zwecke eingebaut
      */
     protected void inOrder(TreeNode<E> root) {
         if (root == null) return;
         inOrder(root.left);
         System.out.print(root.element + " ");
         inOrder(root.right);
+    }
+
+    /**
+     * Post-Order von der Wurzel aus
+     */
+    public void postOrder() {
+        postOrder(root);
+    }
+
+    /**
+     * Post-Order von der Wurzel aus
+     * Der Code wurde nur für Debugging Zwecke eingebaut
+     */
+    protected void postOrder(TreeNode<E> root) {
+        if (root == null) return;
+        postOrder(root.left);
+        postOrder(root.right);
+        System.out.print(root.element + " ");
+    }
+
+    /**
+     * Pre-Order von der Wurzel aus
+     */
+    public void preOrder() {
+        preOrder(root);
+    }
+
+    /**
+     * Pre-Order von der Wurzel aus
+     * Der Code wurde nur für Debugging Zwecke eingebaut
+     */
+    protected void preOrder(TreeNode<E> root) {
+        if (root == null) return;
+        System.out.print(root.element + " ");
+        preOrder(root.left);
+        preOrder(root.right);
     }
 
     /**
@@ -239,16 +276,16 @@ public class BinaryTree<E extends Comparable<E>> {
     }
 
     /**
-     * Gibt custom Iterator zurueck.
+     * Gibt custom Iterator zurueck (wird zum speichern benötigt)
      */
     public java.util.Iterator iterator() {
-        return new OrderedIterator();
+        return new PreOrderedIterator();
     }
 
     /**
      * Eingebettete Klasse, die es erlaubt durch den Baum zu iterieren
      */
-    class OrderedIterator implements java.util.Iterator {
+    class PreOrderedIterator implements java.util.Iterator {
 
         private java.util.ArrayList<E> list = new java.util.ArrayList<E>();
         private int current = 0;
@@ -256,25 +293,25 @@ public class BinaryTree<E extends Comparable<E>> {
         /**
          * Konstruktor befuellt die Liste in der alle Elemente des Baums gespeichert werden
          */
-        public OrderedIterator() {
-            inOrder(); // Traversiert durch den Baum und speichert die Elemente in einer Liste
+        public PreOrderedIterator() {
+            preOrder(); // Traversiert durch den Baum und speichert die Elemente in einer Liste
         }
 
         /**
          * Geht traversal vom Wurzelknoten aus nach unten
          */
-        private void inOrder() {
-            inOrder(root);
+        private void preOrder() {
+            preOrder(root);
         }
 
         /**
          * Geht traversal vom einem gegeben Knoten aus nach unten
          */
-        private void inOrder(TreeNode<E> root) {
+        private void preOrder(TreeNode<E> root) {
             if (root == null) return;
-            inOrder(root.left);
             list.add(root.element);
-            inOrder(root.right);
+            preOrder(root.left);
+            preOrder(root.right);
         }
 
         /**

@@ -9,13 +9,15 @@ public class BinaryTreeView extends JPanel {
     private PaintTree paintTree = new PaintTree();
 
     //Buttons
-    private JButton jbtInsert = new JButton("Einfuegen");
-    private JButton jbtDelete = new JButton("Loeschen");
+    private JButton jbtInsert = new JButton("Einfügen");
+    private JButton jbtDelete = new JButton("Löschen");
     private JButton jbtSave = new JButton("Speichern");
     private JButton jbtLoad= new JButton("Laden");
+    private JButton jbtReset = new JButton("Reset");
 
 
     private JLabel jlbDepth = new JLabel("0");
+    private JLabel jlbSize = new JLabel("0");
 
     public BinaryTreeView(BinaryTree<String> tree) {
         this.tree = tree; // Set a binary tree to be displayed
@@ -27,15 +29,21 @@ public class BinaryTreeView extends JPanel {
         this.setLayout(new BorderLayout());
         add(paintTree, BorderLayout.CENTER);
         JPanel panel = new JPanel();
-        panel.add(new JLabel("Tiefe: "));
+        // Die vielen Leerzeichen in den JLabels kommen von Schwierigkeiten mit dem Layout
+        // Kann man auch besser lösen
+        panel.add(new JLabel("Nodes: "));
+        panel.add(jlbSize);
+        panel.add(new JLabel("  Tiefe: "));
         panel.add(jlbDepth);
-        panel.add(new JLabel("  Wert: "));
+        panel.add(new JLabel("        Wert: "));
         panel.add(jtfKey);
         panel.add(jbtInsert);
         panel.add(jbtDelete);
         panel.add(new JLabel("    "));
         panel.add(jbtSave);
         panel.add(jbtLoad);
+        panel.add(new JLabel("    "));
+        panel.add(jbtReset);
         add(panel, BorderLayout.SOUTH);
 
         //Event Listener fuer die Buttons
@@ -85,6 +93,15 @@ public class BinaryTreeView extends JPanel {
                 JOptionPane.showMessageDialog(null,"Baum wurde geladen.");
             }
         });
+
+        jbtReset.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                tree.clear();
+                paintTree.repaint(); // Redisplay the tree
+            }
+        });
+
+
     }
 
     // Eingebette Klasse PaintTree, die die Darstellung der Nodes und die Verbindungslinien zeichnet
@@ -99,6 +116,8 @@ public class BinaryTreeView extends JPanel {
                 // Baum wird rekursiv aufgebaut
                 displayTree(g, tree.getRoot(), getWidth() / 2, 30, getWidth() / 4);
             }
+            jlbDepth.setText(String.valueOf(tree.getDepth(tree.getRoot())));
+            jlbSize.setText(String.valueOf(tree.getSize()));
         }
 
         /** Zeichnet den Baum ausgehend von einem Subtree nach unten */
@@ -120,7 +139,6 @@ public class BinaryTreeView extends JPanel {
                 // Der rechte Subtree wird rekursiv weitergezeichnet
                 displayTree(g, root.right, x + hGap, y + vGap, hGap / 2);
             }
-            jlbDepth.setText(String.valueOf(tree.getDepth(root)));
         }
 
         /** Verbindet einen Knoten (x2, y2) mit
@@ -150,7 +168,7 @@ public class BinaryTreeView extends JPanel {
      *  Hier kann auch ein bereits vorhandener BinaryTree uebergeben werden*/
     public static void main(String[] args) {
         JFrame frame = new JFrame("Binary Tree");
-        JPanel applet = new BinaryTreeView(new BinaryTree<String>());
+        JPanel applet = new BinaryTreeView(new BinaryTree<String>()); //Leerer BinaryTree wird dem Konstruktor übergeben
         frame.add(applet);
         frame.setSize(800, 800);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
