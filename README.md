@@ -1,6 +1,8 @@
 BinaryTree
 ==========
 
+BinaryTree implementation in Java.
+
 ##Installation
 
 -	Clone  git clone git@github.com:chilly90/BinaryTree.git
