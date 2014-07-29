@@ -1,7 +1,7 @@
 BinaryTree
 ==========
 
-BinaryTree implementation in Java.
+A simple sorted BinaryTree implementation in Java featuring a Swing GUI.
 
 ##Installation
 
